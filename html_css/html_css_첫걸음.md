@@ -1,4 +1,4 @@
-- 강의 자료 : https://heropy.blog
+- 강의 자료 : https://heropy.blog/2019/04/24/html-css-starter/
 
 ## 비트맵과 벡터 이미지
 
