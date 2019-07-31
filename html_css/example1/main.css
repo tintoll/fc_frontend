@@ -1,0 +1,48 @@
+body {
+  /*
+    브라무저 마다 기본 설정으로 Body에 margin과 padding의 값이 설정되어 있다.
+  */
+  margin : 0;
+  padding : 0;
+}
+/* html 구조 순서에 맞게 css도 작성해야 유지보수하기 쉬워진다. */
+.header {
+  background-color: white;
+  border-bottom: 1px solid lightgray;
+}
+
+.container {
+  width : 980px;
+  margin : auto; /* container를 수평 가운데 정렬하는 속성으로 쓰입니다. */
+}
+
+.container-left {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.logo {
+  margin-right: 5px;
+  float: left; /* logo와 menu를 수평 정렬하기 위해 사용되었습니다. */
+}
+.logo img { 
+  display: block; /* img(이미지) 하단에 생기는 불필요한 여백을 없애기 위해서 사용되었습니다. */
+}
+
+.menu {
+  float : left;
+}
+
+.menu-item {
+  font-size : 16px; /* 브라우저 기본인 16px이다. 사용안해도 됨.*/ 
+  padding : 8px 10px; /* 수직정렬처럼 보여주기 위해서 사용 */
+  float : left;
+}
+
+/* float: left; 를 사용하고 마무리할 때 필요한 코드입니다. */
+/* float: left;를 사용한 해당 HTML 요소의 부모 요소에게 class="clearfix"를 입력하여 CSS float 속성에서 발생하는 현상을 해제합니다. */
+.clearfix::after {
+  content : "";
+  display: block;
+  clear : both;
+}
