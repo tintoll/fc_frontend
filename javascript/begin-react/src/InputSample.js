@@ -1,21 +1,36 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 
 function InputSample() {
-    const [text, setText] = useState('');
-    // 이벤트 함수에는 이벤트 객체를 e파라미터로 받아올수 있다.
+    const [inputs, setInputs] = useState({
+        name : '',
+        nickname : ''
+    });
+    
+    const {name, nickname} = inputs;
+    const nameInput = useRef();
+
     const onInputChange = (e) => {
-        // e.tartget이 Input태그 엘리먼트
-        setText(e.target.value);
+        const {name, value} = e.target;
+        setInputs({
+            ...inputs,
+            [name] : value
+        })
     }
-    const initText = () => {
-        setText('');
-    }
+    const onReset = (e) => {
+        setInputs({
+            name : '',
+            nickname : ''
+        });
+        nameInput.current.focus();
+    };
+
     return (
         <>
-            <input onChange={onInputChange} value={text} />
-            <button onClick={initText}>초기화</button>
+            <input ref={nameInput} onChange={onInputChange} value={name} name="name" placeholder="이름" />
+            <input onChange={onInputChange} value={nickname} name="nickname" placeholder="닉네임" />
+            <button onClick={onReset}>초기화</button>
             <div>
-                값 : {text}
+                {name} ({nickname})
             </div>
         </>
     );
