@@ -25,7 +25,7 @@ function App() {
   
   const onCreate = () => {
     // todo
-    nextId += 1;
+    nextId.current += 1;
   }
 
   return (
