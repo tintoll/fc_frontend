@@ -1,6 +1,24 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 function User({user, onRemove, onToggle}) {
+    useEffect( () => {
+        console.log('마운트 될때 실행 ');
+        return () => {
+            console.log('언 마운트 될때 실행');
+        };
+    }, []);
+
+    useEffect( () => {
+        console.log('user의 상태가 변경될때');
+        return () => {
+            console.log('user의 상태가 변경될때 return ');
+        };
+    }, [user]);
+
+    useEffect( () => {
+        console.log('계속 호출 ');     
+    });
+
     return (
         <div>
             <b style={{
