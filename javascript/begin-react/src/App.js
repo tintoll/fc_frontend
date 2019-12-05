@@ -1,4 +1,4 @@
-import React, { useRef, useState, useMemo } from 'react';
+import React, { useRef, useState, useMemo, useCallback } from 'react';
 import './App.css';
 import UserList from './UserList';
 import CreateUser from './CreateUser';
@@ -17,13 +17,13 @@ function App() {
   });
 
   const { username, email } = inputs;
-  const onChange = (e) => {
+  const onChange = useCallback((e) => {
     const {name, value} = e.target;
-    setInputs({
+    setInputs( inputs => ({
       ...inputs,
       [name] : value
-    })
-  }
+    }))
+  }, []);
 
 
   const [users, setUsers] = useState([
@@ -49,7 +49,7 @@ function App() {
 
   let nextId = useRef(4);
   
-  const onCreate = () => {
+  const onCreate = useCallback(() => {
     const user = {
       id : nextId.current,
       username,
@@ -57,10 +57,10 @@ function App() {
     };
 
     // 배열 추가 - spread 연산자 이용 
-    setUsers([
+    setUsers(users => ([
       ...users,
       user
-    ]);
+    ]));
     // 배열 추가 - concat 함수 이용 
     // setUsers(users.concat(user));
 
@@ -72,18 +72,18 @@ function App() {
     
     // todo
     nextId.current += 1;
-  }
+  }, [username, email]);
 
-  const onRemove = id => {
+  const onRemove = useCallback(id => {
     // user.id가 일치하지 않는것만 가지고 새로운 배열을 만들어서 넘겨준다.
-    setUsers( users.filter(user => user.id !== id) );
-  }
+    setUsers( users => users.filter(user => user.id !== id) );
+  }, []);
 
-  const onToggle = id => {
-    setUsers( users
+  const onToggle = useCallback(id => {
+    setUsers( users => users
       .map( user => user.id === id ? {...user, active : !user.active} : user)
     );
-  }
+  },[]);
 
   let count = useMemo(() => countUserActive(users) , [users]);
 
