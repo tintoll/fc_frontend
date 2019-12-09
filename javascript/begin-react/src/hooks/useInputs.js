@@ -1,20 +1,36 @@
-import {useState, useCallback} from 'react';
+import {useState, useReducer, useCallback} from 'react';
+
+function reducer(state, action) {
+    switch(action.type) {
+        case 'CHANGE_INPUT' :
+            return {
+                ...state,
+                [action.name] : action.value
+            };
+        case 'RESET' :
+            return action.initailState;
+        default : 
+            return state;    
+    }
+}
 
 function useInputs(initailState) {
-    const [form, setForm] = useState(initailState);
+    const [form, dispatch] = useReducer(reducer,initailState);
 
     const onChange = useCallback( (e) => {
         const {name, value} = e.target;
-
-        setForm( form => ({
-            ...form,
-            [name] : value
-        }));
-
+        dispatch({
+            type : 'CHANGE_INPUT',
+            name,
+            value 
+        })
     }, []);
 
     const reset = useCallback(() => {
-        setForm(initailState);
+        dispatch({
+            type : 'RESET',
+            initailState
+        })
     }, [initailState]);
 
     return [form, onChange, reset];
