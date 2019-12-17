@@ -1,32 +1,53 @@
-import React, {
-    useState,
-    useEffect
-} from 'react';
+import React, { useReducer, useEffect} from 'react';
 import axios from 'axios';
 
+function reducer(state, action) {
+    switch(action.type) {
+        case 'LODING' :
+            return {
+                loding : true,
+                data : null,
+                error : null
+            }
+        case 'SUCCESS' :
+            return {
+                loding : false,
+                data : action.data,
+                error : null
+            } 
+        case 'ERROR' :
+            return {
+                loding : false,
+                data : null,
+                error : action.error
+            }       
+        default :
+            throw new Error('Not Suppoted Type');
+    }
+}
+
 function Users() {
-    const [loding, setLoding] = useState(false);
-    const [users, setUsers] = useState(null);
-    const [error, setError] = useState(null);
+    const [state, dispatch] = useReducer(reducer, {
+        loding : false,
+        data : null,
+        error : null
+    });
 
     const fetchData = async () => {
-
-        try {
-            setUsers(null);
-            setError(null);
-            setLoding(true);
+        dispatch({type : 'LODING'});
+        try {            
             const response = await axios.get('https://jsonplaceholder.typicode.com/users');
-            setUsers(response.data);
+            dispatch({type : 'SUCCESS', data : response.data});
         } catch (e) {
-            setError(e);
+            dispatch({type : 'ERROR', error : e});
         }
-
-        setLoding(false);
     }
 
     useEffect(() => {
         fetchData();
     }, []);
+
+    const {loding, data : users, error} = state;
 
     if(loding) return <div>로딩중...</div>;
     if(error) return <div>에러발생...</div>;
