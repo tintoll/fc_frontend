@@ -1,18 +1,17 @@
-import React from 'react';
-import axios from 'axios';
-import useAsync from './useAsync';
+import React ,{ useEffect}from 'react';
+import { getUser, useUsersState, useUsersDispatch } from './UserContext';
 
-async function getUser(id) {
-    const response = await axios.get(`https://jsonplaceholder.typicode.com/users/${id}`);
-    return response.data;
-}
 
-function User({id}) {
-    // 파라미터를 포함시켜서 함수를 호출하는 새로운 함수를 만들어서 등록해준다.
-    const [state] = useAsync(() => getUser(id), [id]);
+function User({id}) {    
+    const state = useUsersState();
+    const dispatch = useUsersDispatch();
+    useEffect( () => {
+        getUser(dispatch, id);
+    }, [dispatch, id]);
 
-    const {loding, data: user, error} = state;
-    if(loding) return <div>로딩중...</div>;
+    const {data:user, isLoding, error} = state.user;
+    
+    if(isLoding) return <div>로딩중...</div>;
     if(error) return <div>에러발생...</div>;    
     if(!user) return null;
 
