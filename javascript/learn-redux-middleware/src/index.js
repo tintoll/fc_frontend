@@ -12,6 +12,9 @@ import ReduxThunk  from 'redux-thunk';
 import { Router } from 'react-router-dom'
 import { createBrowserHistory } from 'history'
 
+import axios from 'axios';
+axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? '/' : 'https://api.velog.io/';
+
 const customHistory = createBrowserHistory();
 
 const store = createStore(rootReducer, 
