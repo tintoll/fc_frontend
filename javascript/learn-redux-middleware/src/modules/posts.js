@@ -16,6 +16,9 @@ const GET_POST_ERROR = 'GET_POST_ERROR';
 // 아주 쉽게 thunk 함수를 만들 수 있게 되었습니다.
 export const getPosts = createPromiseThunk(GET_POSTS, postsAPI.getPosts);
 export const getPost = createPromiseThunkById(GET_POST, postsAPI.getPostById);
+export const goToHome = () => (dispatch, getState, {history}) => {
+  history.push('/');
+}
 
 const initialState = {
   posts: reducerUtils.initial(),
